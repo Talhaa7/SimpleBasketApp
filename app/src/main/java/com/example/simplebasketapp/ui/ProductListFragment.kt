@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -41,6 +43,10 @@ class ProductListFragment: Fragment() {
 
         observeProductList()
 
+        observeErrorState()
+
+        observeProgressbar()
+
 
 
     }
@@ -59,6 +65,22 @@ class ProductListFragment: Fragment() {
             response.let {
                 adapter.differ.submitList(it)
             }
+        })
+    }
+
+    private fun observeErrorState() {
+        viewModel.errorString.observe(viewLifecycleOwner, Observer { errorString ->
+            Toast.makeText(
+                requireContext(),
+                errorString,
+                Toast.LENGTH_LONG
+            ).show()
+        })
+    }
+
+    private fun observeProgressbar() {
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            binding.progressBar2.isVisible = isLoading
         })
     }
 }

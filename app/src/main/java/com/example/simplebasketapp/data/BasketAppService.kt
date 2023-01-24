@@ -1,6 +1,8 @@
 package com.example.simplebasketapp.data
 
 import com.example.simplebasketapp.data.model.ProductResponse
+import com.example.simplebasketapp.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 
 interface BasketAppService {
