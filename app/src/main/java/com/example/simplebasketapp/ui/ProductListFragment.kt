@@ -9,19 +9,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.simplebasketapp.databinding.FragmentProductListBinding
 import com.example.simplebasketapp.ui.adapter.ProductListAdapter
+import com.example.simplebasketapp.utils.ProductButtonClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProductListFragment: Fragment() {
+class ProductListFragment: Fragment(), ProductButtonClickListener {
 
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
 
     lateinit var productListAdapter: ProductListAdapter
     private val viewModel by viewModels<ProductListViewModel>()
+
+    lateinit var listener: ProductButtonClickListener
 
 
     override fun onCreateView(
@@ -31,7 +35,9 @@ class ProductListFragment: Fragment() {
     ): View {
         _binding = FragmentProductListBinding.inflate(inflater,container,false)
 
+        listener = this
         return binding.root
+
     }
 
 
@@ -52,7 +58,9 @@ class ProductListFragment: Fragment() {
     }
 
     private fun setupRecycleView() {
-        productListAdapter = ProductListAdapter()
+        productListAdapter = ProductListAdapter(
+            listener
+        )
         binding.rvFavoriteProducts.apply {
             adapter = productListAdapter
             layoutManager = GridLayoutManager(requireContext(),2)
@@ -82,5 +90,11 @@ class ProductListFragment: Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             binding.progressBar2.isVisible = isLoading
         })
+    }
+
+    override fun onProductListButtonClickListener(view: View) {
+
+        findNavController().navigate(ProductListFragmentDirections.actionProductListFragmentToCartFragment())
+
     }
 }

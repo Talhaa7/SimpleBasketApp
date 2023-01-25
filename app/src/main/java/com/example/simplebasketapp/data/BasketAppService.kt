@@ -1,9 +1,9 @@
 package com.example.simplebasketapp.data
 
-import com.example.simplebasketapp.data.model.ProductResponse
+import com.example.simplebasketapp.data.model.*
 import com.example.simplebasketapp.utils.Resource
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.GET
+import retrofit2.http.*
 
 interface BasketAppService {
 
@@ -13,4 +13,10 @@ interface BasketAppService {
 
     @GET("listing")
     suspend fun getProductList(): ProductResponse
+
+    @Headers("Content-Type:application/json")
+    @POST("order")
+    suspend fun postOrder(
+        @Body requestModelObject: RequestModelObject
+    ) :OrderResponseModel
 }

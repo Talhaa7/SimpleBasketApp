@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Simple Basket App</string>
+    <string name="add_basket">Add basket</string>
 </resources>

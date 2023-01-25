@@ -1,12 +1,9 @@
-package com.example.simplebasketapp.ui
+package com.example.simplebasketapp.ui.cart
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.simplebasketapp.data.model.AddBasketRequestModel
-import com.example.simplebasketapp.data.model.RequestModelObject
 import com.example.simplebasketapp.domain.BasketRepository
 import com.example.simplebasketapp.ui.adapter.ProductLisItemUiModel
 import com.example.simplebasketapp.utils.Resource
@@ -17,18 +14,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductListViewModel @Inject constructor(
+class CartViewModel @Inject constructor(
     private val basketRepository: BasketRepository
-): ViewModel() {
-
-    private var _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
+): ViewModel(){
 
     private val _productList = MutableLiveData<List<ProductLisItemUiModel>> ()
 
     val productList : LiveData<List<ProductLisItemUiModel>>
         get() = _productList
+
+    private var _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
 
     private var _errorString = SingleLiveEvent<String>()
     val errorString: LiveData<String>
@@ -36,8 +33,8 @@ class ProductListViewModel @Inject constructor(
 
     init {
         getProductList()
-        postOrder()
     }
+
 
     fun getProductList() {
         viewModelScope.launch {
@@ -62,36 +59,4 @@ class ProductListViewModel @Inject constructor(
         }
     }
 
-
-
-    fun postOrder() {
-        val deneme = RequestModelObject()
-
-        viewModelScope.launch {
-            basketRepository.postOrder(deneme)
-                .collect{ resource ->
-                    when (resource) {
-                        is Resource.Loading -> {
-
-                            //_errorString.value = "loading"
-                        }
-                        is Resource.Success -> {
-                            //_errorString.value = "başarılı"
-                            resource.data?.let {
-                                println(it.message)
-                            }
-                        }
-                        is Resource.Error -> {
-                            println("error")
-                            _isLoading.value = false
-                            _errorString.value = resource.message
-                        }
-                    }
-                }
-        }
-    }
-
-    fun navigateToCart() {
-
-    }
 }

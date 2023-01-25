@@ -1,4 +1,4 @@
-package com.example.simplebasketapp.ui.adapter
+package com.example.simplebasketapp.ui.cart.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +9,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.simplebasketapp.R
-import com.example.simplebasketapp.databinding.ProductListItemBinding
-import com.example.simplebasketapp.utils.ProductButtonClickListener
+import com.example.simplebasketapp.databinding.CartListItemBinding
+import com.example.simplebasketapp.ui.adapter.ProductLisItemUiModel
 
-class ProductListAdapter constructor(
-    val productButtonClickListener: ProductButtonClickListener
-): RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
+class CartItemListAdapter() : RecyclerView.Adapter<CartItemListAdapter.CartViewHolder>() {
 
-    private lateinit var binding: ProductListItemBinding
+    private lateinit var binding : CartListItemBinding
 
-    inner class ProductViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class CartViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     private val differCallBack = object : DiffUtil.ItemCallback<ProductLisItemUiModel>() {
         override fun areItemsTheSame(
@@ -39,19 +37,19 @@ class ProductListAdapter constructor(
 
     val differ = AsyncListDiffer(this,differCallBack)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemListAdapter.CartViewHolder {
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.product_list_item,
+            R.layout.cart_list_item,
             parent,
             false
         )
-        return ProductViewHolder(binding.root)
+        return CartViewHolder(binding.root)
 
     }
 
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CartItemListAdapter.CartViewHolder, position: Int) {
         val product = differ.currentList[position]
         holder.itemView.apply {
             Glide.with(this).load(product.image).into(binding.ivProduct)
@@ -59,10 +57,6 @@ class ProductListAdapter constructor(
             binding.tvProductPrice.text = "${product.price} ${product.currency}"
         }
 
-        binding.btnAddBasket.setOnClickListener {
-            productButtonClickListener.onProductListButtonClickListener(it)
-
-        }
     }
 
     override fun getItemCount(): Int {

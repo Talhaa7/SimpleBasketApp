@@ -38,8 +38,8 @@ object ApiModule {
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
             .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 

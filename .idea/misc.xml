@@ -6,6 +6,8 @@
         <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/drawable/product_list_item_background.xml" value="0.224" />
         <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/layout/activity_basket.xml" value="0.17760416666666667" />
         <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/layout/activity_main.xml" value="0.30570652173913043" />
+        <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/layout/cart_list_item.xml" value="0.5" />
+        <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/layout/fragment_cart.xml" value="0.33" />
         <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/layout/fragment_product_list.xml" value="0.30570652173913043" />
         <entry key="..\:/Users/pc/AndroidStudioProjects/SimpleBasketApp/app/src/main/res/layout/product_list_item.xml" value="0.21467391304347827" />
       </map>
