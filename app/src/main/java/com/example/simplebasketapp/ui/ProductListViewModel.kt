@@ -36,7 +36,6 @@ class ProductListViewModel @Inject constructor(
 
     init {
         getProductList()
-        postOrder()
     }
 
     fun getProductList() {
@@ -62,34 +61,6 @@ class ProductListViewModel @Inject constructor(
         }
     }
 
-
-
-    fun postOrder() {
-        val deneme = RequestModelObject()
-
-        viewModelScope.launch {
-            basketRepository.postOrder(deneme)
-                .collect{ resource ->
-                    when (resource) {
-                        is Resource.Loading -> {
-
-                            //_errorString.value = "loading"
-                        }
-                        is Resource.Success -> {
-                            //_errorString.value = "başarılı"
-                            resource.data?.let {
-                                println(it.message)
-                            }
-                        }
-                        is Resource.Error -> {
-                            println("error")
-                            _isLoading.value = false
-                            _errorString.value = resource.message
-                        }
-                    }
-                }
-        }
-    }
 
     fun navigateToCart() {
 

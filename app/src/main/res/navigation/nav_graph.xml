@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.simplebasketapp.ui.cart.CartFragment"
-        android:label="CartFragment" />
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+    </fragment>
 </navigation>

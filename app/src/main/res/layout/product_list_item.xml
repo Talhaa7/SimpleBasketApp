@@ -29,29 +29,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivProduct"
             />
+
         <TextView
             android:id="@+id/tvProductPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/btnAddBasket"
-            app:layout_constraintEnd_toStartOf="@id/btnAddBasket"
-            app:layout_constraintBottom_toBottomOf="@+id/btnAddBasket"
-            tools:text="13 TRY"
-            />
-        <Button
-            android:text="@string/add_basket"
-            android:id="@+id/btnAddBasket"
-            android:textSize="11sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/tvProductPrice"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProductName"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
-            />
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/clAddBasket"
+            tools:text="13 TRY" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAddBasket"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tvProductName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp"
+            android:background="@color/red">
+
+            <TextView
+                android:id="@+id/tvPlaceOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Add Basket"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/clAddBasket"
+                app:layout_constraintEnd_toEndOf="@id/clAddBasket"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/clAddBasket" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

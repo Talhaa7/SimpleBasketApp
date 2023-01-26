@@ -10,25 +10,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.simplebasketapp.R
 import com.example.simplebasketapp.databinding.CartListItemBinding
-import com.example.simplebasketapp.ui.adapter.ProductLisItemUiModel
+import com.example.simplebasketapp.utils.CartItemClickListener
 
-class CartItemListAdapter() : RecyclerView.Adapter<CartItemListAdapter.CartViewHolder>() {
+class CartItemListAdapter constructor(
+    val cartItemClickListener: CartItemClickListener
+) : RecyclerView.Adapter<CartItemListAdapter.CartViewHolder>() {
 
     private lateinit var binding : CartListItemBinding
 
+
+
     inner class CartViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
-    private val differCallBack = object : DiffUtil.ItemCallback<ProductLisItemUiModel>() {
+    private val differCallBack = object : DiffUtil.ItemCallback<CartListItemUiModel>() {
         override fun areItemsTheSame(
-            oldItem: ProductLisItemUiModel,
-            newItem: ProductLisItemUiModel
+            oldItem: CartListItemUiModel,
+            newItem: CartListItemUiModel
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ProductLisItemUiModel,
-            newItem: ProductLisItemUiModel
+            oldItem: CartListItemUiModel,
+            newItem: CartListItemUiModel
         ): Boolean {
             return oldItem == newItem
         }
@@ -55,6 +59,20 @@ class CartItemListAdapter() : RecyclerView.Adapter<CartItemListAdapter.CartViewH
             Glide.with(this).load(product.image).into(binding.ivProduct)
             binding.tvProductName.text = product.name
             binding.tvProductPrice.text = "${product.price} ${product.currency}"
+            binding.tvNumberOfItem.text = product.qty.toString()
+
+            binding.ivIncrease.setOnClickListener {
+                cartItemClickListener.increaseProductNumber(product.id)
+
+            }
+
+            binding.ivDecrease.setOnClickListener {
+                cartItemClickListener.decreaseProductNumber(product.id)
+            }
+
+            binding.tvRemove.setOnClickListener {
+                cartItemClickListener.removeProductFromList(product.id)
+            }
         }
 
     }

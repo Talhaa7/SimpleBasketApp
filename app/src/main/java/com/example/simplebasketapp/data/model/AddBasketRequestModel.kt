@@ -1,3 +1,3 @@
 package com.example.simplebasketapp.data.model
 
-data class AddBasketRequestModel (val id: Int = 4, val amount: Int = 3)
+data class AddBasketRequestModel (val id: Int, val amount: Int)

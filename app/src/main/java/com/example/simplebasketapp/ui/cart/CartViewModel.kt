@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.simplebasketapp.data.model.AddBasketRequestModel
+import com.example.simplebasketapp.data.model.RequestModelObject
 import com.example.simplebasketapp.domain.BasketRepository
 import com.example.simplebasketapp.ui.adapter.ProductLisItemUiModel
+import com.example.simplebasketapp.ui.cart.adapter.CartListItemUiModel
 import com.example.simplebasketapp.utils.Resource
 import com.example.simplebasketapp.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,32 +34,55 @@ class CartViewModel @Inject constructor(
     val errorString: LiveData<String>
         get() = _errorString
 
-    init {
-        getProductList()
-    }
+    private var _clearBasket = MutableLiveData<Boolean>()
+    val clearBasket : LiveData<Boolean>
+        get() = _clearBasket
 
 
-    fun getProductList() {
+    fun postOrder(cartListItemUiModel: List<CartListItemUiModel>) {
+        val postRequestModel = RequestModelObject()
+
+        cartListItemUiModel.map {
+            postRequestModel.add(
+                AddBasketRequestModel(
+                    it.id.toInt(),
+                    it.qty
+                )
+            )
+        }
+
+
         viewModelScope.launch {
-            basketRepository.getProductList()
+            basketRepository.postOrder(postRequestModel)
                 .collect{ resource ->
                     when (resource) {
                         is Resource.Loading -> {
+
                             _isLoading.value = true
+                            _clearBasket.value = false
                         }
                         is Resource.Success -> {
                             _isLoading.value = false
                             resource.data?.let {
-                                _productList.value = it
+                                _errorString.value = "Order Successful And Basket Cleared"
+                                _clearBasket.value = true
                             }
                         }
                         is Resource.Error -> {
                             _isLoading.value = false
-                            _errorString.value = resource.message
+                            if (resource.message == "404") {
+                                _errorString.value = "Out of stock"
+                                _clearBasket.value = false
+                            } else {
+                                _errorString.value = "Unexpected Error"
+                                _clearBasket.value = false
+                            }
+
                         }
                     }
                 }
         }
     }
+
 
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class BasketRepositoryImp @Inject constructor(private val basketAppService: BasketAppService) : BasketRepository {
@@ -36,12 +37,24 @@ class BasketRepositoryImp @Inject constructor(private val basketAppService: Bask
 
     override suspend fun postOrder(requestModel: RequestModelObject): Flow<Resource<OrderResponseModel>> {
         return flow {
-            emit(Resource.Loading(true))
-            val orderResponse = basketAppService.postOrder(requestModel)
 
-            emit(Resource.Success(
-                data = orderResponse
-            ))
+            try {
+                emit(Resource.Loading(true))
+                val orderResponse = basketAppService.postOrder(requestModel)
+
+                emit(Resource.Success(
+                    data = orderResponse
+                ))
+            } catch (e: HttpException) {
+                if (e.code() == 404) {
+                    emit(Resource.Error(
+                        "404"
+                    ))
+                } else {
+                    emit(Resource.Error("other"))
+                }
+            }
+
 
         }
     }

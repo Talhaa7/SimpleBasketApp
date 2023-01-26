@@ -59,8 +59,8 @@ class ProductListAdapter constructor(
             binding.tvProductPrice.text = "${product.price} ${product.currency}"
         }
 
-        binding.btnAddBasket.setOnClickListener {
-            productButtonClickListener.onProductListButtonClickListener(it)
+        binding.clAddBasket.setOnClickListener {
+            productButtonClickListener.onProductListButtonClickListener(product)
 
         }
     }
